@@ -1,3 +1,5 @@
+# This belongs to MyNote project, see https://github.com/pedroter7/mynote
+
 mynote_sources = ['main.cpp', 'application.cpp', 'mainwindow.cpp']
 mynote_sources += resources
 

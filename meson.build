@@ -1,3 +1,5 @@
+# This belongs to MyNote project, see https://github.com/pedroter7/mynote
+
 project('mynote', 'cpp', 'c', version : '1.0', default_options : ['cpp_std=c++14'])
 
 gtkmm_pkgname = 'gtkmm-3.0'
