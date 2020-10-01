@@ -1,8 +1,9 @@
 # VS Code configurations folder
 /.vscode/
 
-# Build directory
+# Build directories
 /__build/
+/builddir/
 
 # Glade autsave files
 *.glade~
