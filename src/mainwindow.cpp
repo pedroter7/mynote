@@ -1,4 +1,4 @@
-#include "include/mainwindow.hpp"
+#include "mainwindow.hpp"
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>
@@ -14,8 +14,11 @@ MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/
 
         add(*mBox);
 
+        // Window properties
         set_title("MyNote");
         set_default_size(800, 600);
+        set_border_width(3);
+        set_position(Gtk::WIN_POS_CENTER);
     }
 }
 
