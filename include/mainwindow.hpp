@@ -1,5 +1,5 @@
 /*
-    MyNote : A simple Notepad like editor
+    MyNote : A simple Notepad-like editor
     
     Copyright (C) 2020  Pedro Tersetti Freidinger
 
