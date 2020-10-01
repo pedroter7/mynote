@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+    <gresource prefix="/mynote">
+        <file preprocess="xml-stripblanks">res/layout.glade</file>
+    </gresource>
+</gresources>
