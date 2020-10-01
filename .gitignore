@@ -1,2 +1,5 @@
 # VS Code configurations folder
 /.vscode/
+
+# Build directory
+/__build/
