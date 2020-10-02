@@ -30,6 +30,7 @@
 #include <gtkmm/builder.h>
 #include <gtkmm/box.h>
 #include <gtkmm/textview.h>
+#include <gtkmm/menuitem.h>
 
 #include <glibmm/refptr.h>
 
@@ -38,10 +39,28 @@ private:
     Gtk::Box *mBox; // Root element of the layout
     Glib::RefPtr<Gtk::Builder> mBuilder;
     Glib::RefPtr<Gtk::TextView> mTextArea;
+    // File menu items
+    Glib::RefPtr<Gtk::MenuItem> mMenuItem_new;
+    Glib::RefPtr<Gtk::MenuItem> mMenuItem_open;
+    Glib::RefPtr<Gtk::MenuItem> mMenuItem_save;
+    Glib::RefPtr<Gtk::MenuItem> mMenuItem_saveAs;
+    Glib::RefPtr<Gtk::MenuItem> mMenuItem_quit;
+    // Help menu items
+    Glib::RefPtr<Gtk::MenuItem> mMenuItem_about;
 
 public:
     MainWindow();
     ~MainWindow();
+
+    // Event handlers
+    // File menu items
+    void onActivateMenuItem_new();
+    void onActivateMenuItem_open();
+    void onActivateMenuItem_save();
+    void onActivateMenuItem_saveAs();
+    void onActivateMenuItem_quit();
+    // Help menu items
+    void onActivateMenuItem_about();
 
 };
 

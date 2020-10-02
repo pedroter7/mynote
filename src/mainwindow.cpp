@@ -29,14 +29,40 @@
 #include <gtkmm/builder.h>
 #include <gtkmm/box.h>
 #include <gtkmm/textview.h>
+#include <gtkmm/menuitem.h>
 
 #include <glibmm/refptr.h>
+
+#include <sigc++/sigc++.h>
+
+#include <iostream>
 
 MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")) {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));
 
+        // Load File menu items and connect respectives signal handlers
+        mMenuItem_new = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("new_submenu_item"));
+        mMenuItem_new->signal_activate().connect(sigc::mem_fun(this, &MainWindow::onActivateMenuItem_new));
+
+        mMenuItem_open = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("open_submenu_item"));
+        mMenuItem_open->signal_activate().connect(sigc::mem_fun(this, &MainWindow::onActivateMenuItem_open));
+
+        mMenuItem_save = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("save_submenu_item"));
+        mMenuItem_save->signal_activate().connect(sigc::mem_fun(this, &MainWindow::onActivateMenuItem_save));
+
+        mMenuItem_saveAs = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("save_as_submenu_item"));
+        mMenuItem_saveAs->signal_activate().connect(sigc::mem_fun(this, &MainWindow::onActivateMenuItem_saveAs));
+
+        mMenuItem_quit = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("quit_submenu_item"));
+        mMenuItem_quit->signal_activate().connect(sigc::mem_fun(this, &MainWindow::onActivateMenuItem_quit));
+
+        // Load Help menu items and connect respectives signal handlers        
+        mMenuItem_about = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("about_submenu_item"));
+        mMenuItem_about->signal_activate().connect(sigc::mem_fun(this, &MainWindow::onActivateMenuItem_about));
+
+        // Add root widget
         add(*mBox);
 
         // Window properties
@@ -49,4 +75,33 @@ MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/
 
 MainWindow::~MainWindow() {
     delete mBox;
+}
+
+// Event Handlers
+
+
+// File menu items handlers
+void MainWindow::onActivateMenuItem_new() {
+    std::cout << "MenuItem New activated" << std::endl;
+}
+
+void MainWindow::onActivateMenuItem_open() {
+    std::cout << "MenuItem Open activated" << std::endl;
+}
+
+void MainWindow::onActivateMenuItem_save() {
+    std::cout << "MenuItem Save activated" << std::endl;
+}
+
+void MainWindow::onActivateMenuItem_saveAs() {
+    std::cout << "MenuItem Save As activated" << std::endl;
+}
+
+void MainWindow::onActivateMenuItem_quit() {
+    std::cout << "MenuItem Quit activated" << std::endl;
+}
+
+// Help menu items handlers
+void MainWindow::onActivateMenuItem_about() {
+    std::cout << "MenuItem About activated" << std::endl;
 }
