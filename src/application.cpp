@@ -129,3 +129,8 @@ void Application::displayWindow(Glib::ustring windowKey) {
 void Application::hideWindow(Glib::ustring windowKey) {
     windows[windowKey]->hide();
 }
+
+// Add window to mGtkApplication
+void Application::addWindow(Glib::ustring windowKey) {
+    mGtkApplication->add_window(*windows[windowKey]);
+}

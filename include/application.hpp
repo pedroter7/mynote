@@ -75,9 +75,11 @@ public:
     void setUnsaved();
     bool getChangesSaved();
 
-    // Window display/hide
+    // Window display/hide/add
     void displayWindow(Glib::ustring windowKey);
-    void hideWindow(Glib::ustring windowKey); 
+    void hideWindow(Glib::ustring windowKey);
+    // Add window to mGtkApplication
+    void addWindow(Glib::ustring windowKey);
 
 };
 
