@@ -32,9 +32,32 @@
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>
+#include <gtkmm/box.h>
+#include <gtkmm/button.h>
 
 #include <glibmm/refptr.h>
+#include <glibmm/ustring.h>
 
-class ConfirmExitWindow : public Gtk::ApplicationWindow {};
+class ConfirmExitWindow : public Gtk::ApplicationWindow {
+private:
+    Gtk::Box *mBox; // Root element
+    Glib::RefPtr<Gtk::Builder> mBuilder;
+    Glib::RefPtr<Gtk::Button> mSaveButton;
+    Glib::RefPtr<Gtk::Button> mDiscartButton;
+    Glib::RefPtr<Gtk::Button> mCancelButton;
+
+public:
+    const Glib::ustring WINDOW_TITLE;
+    const Glib::ustring WINDOW_KEY;
+
+    ConfirmExitWindow();
+    ~ConfirmExitWindow();
+    
+    // Signal handlers
+    void onClickSaveButton();
+    void onClickDiscartButton();
+    void onClickCancelButton();
+
+};
 
 #endif // _MYNOTE_CONFIRM_EXIT_WINDOW_HPP_
