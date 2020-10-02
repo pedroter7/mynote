@@ -70,6 +70,7 @@ Application* Application::getInstance() {
 
 // Set a temporary window
 bool Application::setTemporaryWindow(Gtk::ApplicationWindow* window, bool force=false) {
+    std::lock_guard<std::mutex> lock(mMutex);
     if (window) {
         if (windows["temp_window"] && force) {
             // Delete current temp_window
