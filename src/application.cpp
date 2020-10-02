@@ -28,7 +28,9 @@ Application is a singleton class that abstracts a Gtk::Application instance for 
 */
 
 #include "application.hpp"
+
 #include "mainwindow.hpp"
+#include "confirmexitwindow.hpp"
 
 #include <gtkmm/application.h>
 #include <gtkmm/applicationwindow.h>
@@ -48,6 +50,7 @@ Application *Application::uniqueInstance = nullptr;
 Application::Application() : mGtkApplication(Gtk::Application::create(Application::APP_ID)), mMutex(), lastChangesSaved(true) {
     // Create instance for each window
     windows["main_window"] = new MainWindow();
+    windows["temp_window"] = nullptr; // For temporary dialog windows
 }
 
 Application::~Application() {
@@ -63,6 +66,24 @@ Application* Application::getInstance() {
         Application::uniqueInstance = new Application();
     }
     return uniqueInstance;
+}
+
+// Set a temporary window
+bool Application::setTemporaryWindow(Gtk::ApplicationWindow* window, bool force=false) {
+    if (window) {
+        if (windows["temp_window"] && force) {
+            // Delete current temp_window
+            delete windows["temp_window"];
+        } else {
+            // There is a temporary window, can't assign new one
+            return false;
+        }
+
+        windows["temp_window"] = window;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 // Abstracts a call to Gtk::Application run() method

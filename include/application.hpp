@@ -64,6 +64,9 @@ public:
     // MyNote app ID, defined in application.cpp: com.github.pedroter7.mynote
     static const Glib::ustring APP_ID;
 
+    // Set a temporary window
+    bool setTemporaryWindow(Gtk::ApplicationWindow* window, bool force=false);
+
     // Abstracts a call to Gtk::Application run() method
     int run();
 
