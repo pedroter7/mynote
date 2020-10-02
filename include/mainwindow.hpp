@@ -33,6 +33,7 @@
 #include <gtkmm/menuitem.h>
 
 #include <glibmm/refptr.h>
+#include <glibmm/ustring.h>
 
 class MainWindow : public Gtk::ApplicationWindow {
 private:
@@ -49,6 +50,8 @@ private:
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_about;
 
 public:
+    const Glib::ustring WINDOW_TITLE;
+
     MainWindow();
     ~MainWindow();
 
