@@ -24,6 +24,7 @@
 */
 
 #include "mainwindow.hpp"
+#include "application.hpp"
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>
@@ -41,6 +42,9 @@ MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));
+
+        // Get textbuffer from textview and connect event listeners
+        mTextArea->get_buffer()->signal_changed().connect(sigc::mem_fun(this, &MainWindow::onTextChanged));
 
         // Load File menu items and connect respectives signal handlers
         mMenuItem_new = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("new_submenu_item"));
@@ -81,6 +85,7 @@ MainWindow::~MainWindow() {
 
 
 // File menu items handlers
+// TODO
 void MainWindow::onActivateMenuItem_new() {
     std::cout << "MenuItem New activated" << std::endl;
 }
@@ -89,19 +94,35 @@ void MainWindow::onActivateMenuItem_open() {
     std::cout << "MenuItem Open activated" << std::endl;
 }
 
+// TODO
 void MainWindow::onActivateMenuItem_save() {
     std::cout << "MenuItem Save activated" << std::endl;
+    Application *app = Application::getInstance();
+    app->setSaved();
 }
 
+// TODO
 void MainWindow::onActivateMenuItem_saveAs() {
     std::cout << "MenuItem Save As activated" << std::endl;
 }
 
+// TODO
 void MainWindow::onActivateMenuItem_quit() {
-    std::cout << "MenuItem Quit activated" << std::endl;
+    Application *app = Application::getInstance();
+    if (app->getChangesSaved() == false) {
+        std::cout << "changes not saved" << std::endl;
+    }
+    this->destroy_();
 }
 
 // Help menu items handlers
+// TODO
 void MainWindow::onActivateMenuItem_about() {
     std::cout << "MenuItem About activated" << std::endl;
+}
+
+// Changes in the text area
+void MainWindow::onTextChanged() {
+    Application *app = Application::getInstance();
+    app->setUnsaved();
 }

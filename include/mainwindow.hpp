@@ -64,6 +64,8 @@ public:
     void onActivateMenuItem_quit();
     // Help menu items
     void onActivateMenuItem_about();
+    // Changes in the text area
+    void onTextChanged();
 
 };
 
