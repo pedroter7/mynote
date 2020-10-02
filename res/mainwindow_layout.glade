@@ -13,21 +13,102 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkMenuItem" id="menu_file">
-            <property name="name">menu_file</property>
+          <object class="GtkMenuItem" id="file_menuitem">
+            <property name="name">file_menuitem</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">_File</property>
             <property name="use_underline">True</property>
+            <child type="submenu">
+              <object class="GtkMenu" id="file_submenu">
+                <property name="name">file_submenu</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkImageMenuItem" id="new_submenu_item">
+                    <property name="label">gtk-new</property>
+                    <property name="name">new_submenu_item</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="use_stock">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkImageMenuItem" id="open_submenu_item">
+                    <property name="label">gtk-open</property>
+                    <property name="name">open_submenu_item</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="use_stock">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkImageMenuItem" id="save_submenu_item">
+                    <property name="label">gtk-save</property>
+                    <property name="name">save_submenu_item</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="use_stock">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkImageMenuItem" id="save_as_submenu_item">
+                    <property name="label">gtk-save-as</property>
+                    <property name="name">save_as_submenu_item</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="use_stock">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSeparatorMenuItem" id="file_submenu_separator">
+                    <property name="name">file_submenu_separator</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkImageMenuItem" id="quit_submenu_item">
+                    <property name="label">gtk-quit</property>
+                    <property name="name">quit_submenu_item</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="use_stock">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </child>
         <child>
-          <object class="GtkMenuItem" id="menu_help">
-            <property name="name">menu_help</property>
+          <object class="GtkMenuItem" id="help_menuitem">
+            <property name="name">help_menuitem</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">_Help</property>
             <property name="use_underline">True</property>
+            <child type="submenu">
+              <object class="GtkMenu" id="help_submenu">
+                <property name="name">help_submenu</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkImageMenuItem" id="about_submenu_item">
+                    <property name="label">gtk-about</property>
+                    <property name="name">about_submenu_item</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="use_stock">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </child>
       </object>
