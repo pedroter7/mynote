@@ -54,7 +54,7 @@ ConfirmExitWindow::ConfirmExitWindow() : mBuilder(Gtk::Builder::create_from_reso
 
         // Window properties
         set_title(WINDOW_TITLE);
-        set_default_size(300, 250);
+        set_default_size(380, 100);
         set_position(Gtk::WIN_POS_CENTER);
         set_resizable(false);
     }
