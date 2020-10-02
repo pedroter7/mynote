@@ -75,6 +75,10 @@ public:
     void setUnsaved();
     bool getChangesSaved();
 
+    // Window display/hide
+    void displayWindow(Glib::ustring windowKey);
+    void hideWindow(Glib::ustring windowKey); 
+
 };
 
 

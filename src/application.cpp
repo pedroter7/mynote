@@ -120,3 +120,12 @@ void Application::setUnsaved() {
 bool Application::getChangesSaved() {
     return lastChangesSaved;
 }
+
+// Window display/hide
+void Application::displayWindow(Glib::ustring windowKey) {
+    windows[windowKey]->show_all();
+}
+
+void Application::hideWindow(Glib::ustring windowKey) {
+    windows[windowKey]->hide();
+}
