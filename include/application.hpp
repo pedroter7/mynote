@@ -24,8 +24,9 @@
 */
 
 /*
-Application is a singleton class that abstracts a Gtk::Application instance for MyNote
-and stores the instances for all windows used in the application
+    Application is a singleton class that abstracts a Gtk::Application instance for MyNote, 
+    stores the instances for all windows used in the application,
+    and has info about the applications general state
 */
 
 #ifndef _MYNOTE_APPLICATION_HPP_
@@ -38,6 +39,7 @@ and stores the instances for all windows used in the application
 #include <glibmm/ustring.h>
 
 #include <map>
+#include <mutex>
 
 class Application {
 private:
@@ -50,6 +52,11 @@ private:
     // Instances of each window
     std::map<Glib::ustring, Gtk::ApplicationWindow*> windows;
 
+    mutable std::mutex mMutex; // Used to control access to state variables
+
+    // Application state variables
+    bool lastChangesSaved;
+
 public:
     ~Application();
     static Application* getInstance();
@@ -59,6 +66,11 @@ public:
 
     // Abstracts a call to Gtk::Application run() method
     int run();
+
+    // Application state manipulators, setters, and getters
+    void setSaved();
+    void setUnsaved();
+    bool getChangesSaved();
 
 };
 

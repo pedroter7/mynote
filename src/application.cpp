@@ -37,6 +37,7 @@ Application is a singleton class that abstracts a Gtk::Application instance for 
 #include <glibmm/ustring.h>
 
 #include <map>
+#include <mutex>
 
 // MyNote app ID
 const Glib::ustring Application::APP_ID = "com.github.pedroter7.mynote";
@@ -44,7 +45,7 @@ const Glib::ustring Application::APP_ID = "com.github.pedroter7.mynote";
 Application *Application::uniqueInstance = nullptr;
 
 // Private constructor
-Application::Application() : mGtkApplication(Gtk::Application::create(Application::APP_ID)) {
+Application::Application() : mGtkApplication(Gtk::Application::create(Application::APP_ID)), mMutex(), lastChangesSaved(true) {
     // Create instance for each window
     windows["main_window"] = new MainWindow();
 }
@@ -68,4 +69,32 @@ Application* Application::getInstance() {
 int Application::run() {
     windows["main_window"]->show_all();
     return mGtkApplication->run(*windows["main_window"]);
+}
+
+// Application state manipulators, setters, and getters
+void Application::setSaved() {
+    std::lock_guard<std::mutex> lock(mMutex);
+    if (lastChangesSaved == false) {
+        // Remove the * from MainWindow title
+        Glib::ustring windowTitle = windows["main_window"]->get_title();
+        windowTitle.replace(windowTitle.find("*"), 1, "");
+        windows["main_window"]->set_title(windowTitle);
+        lastChangesSaved = true;
+    }
+}
+
+void Application::setUnsaved() {
+    std::lock_guard<std::mutex> lock(mMutex);
+    if (lastChangesSaved == true) {
+        // Append an * to MainWindow title
+        Glib::ustring windowTitle = windows["main_window"]->get_title();
+        windowTitle = windowTitle + "*";
+        windows["main_window"]->set_title(windowTitle);
+
+        lastChangesSaved = false;
+    }
+}
+
+bool Application::getChangesSaved() {
+    return lastChangesSaved;
 }
