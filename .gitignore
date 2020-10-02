@@ -7,3 +7,5 @@
 
 # Glade autsave files
 *.glade~
+*#*#
+
