@@ -38,7 +38,7 @@
 
 #include <iostream>
 
-MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), WINDOW_TITLE("MyNote") {
+MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window") {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));
@@ -87,7 +87,13 @@ MainWindow::~MainWindow() {
 // File menu items handlers
 // TODO
 void MainWindow::onActivateMenuItem_new() {
-    std::cout << "MenuItem New activated" << std::endl;
+    Application *app = Application::getInstance();
+    if (app->getChangesSaved() == false) {
+        // Display confirm exit window and wait for input
+    }
+
+    // Erase the text area
+    mTextArea->get_buffer()->erase(mTextArea->get_buffer()->begin(), mTextArea->get_buffer()->end());
 }
 
 void MainWindow::onActivateMenuItem_open() {

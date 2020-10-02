@@ -51,6 +51,7 @@ private:
 
 public:
     const Glib::ustring WINDOW_TITLE;
+    const Glib::ustring WINDOW_KEY; // For reference in an instace of Application class
 
     MainWindow();
     ~MainWindow();
