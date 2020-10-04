@@ -42,7 +42,7 @@
 #include <mutex>
 #include <iostream>
 
-MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window"), mMutex() {
+MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window"), fileName(""), mMutex() {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));

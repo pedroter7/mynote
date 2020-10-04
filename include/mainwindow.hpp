@@ -50,7 +50,7 @@ private:
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_quit;
     // Help menu items
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_about;
-
+    Glib::ustring fileName;
     std::mutex mMutex;
 
 public:
