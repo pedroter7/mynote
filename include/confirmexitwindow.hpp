@@ -30,6 +30,8 @@
 #ifndef _MYNOTE_CONFIRM_EXIT_WINDOW_HPP_
 #define _MYNOTE_CONFIRM_EXIT_WINDOW_HPP_
 
+#include "mainwindow.hpp"
+
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>
 #include <gtkmm/box.h>
@@ -45,6 +47,8 @@ private:
     Glib::RefPtr<Gtk::Button> mSaveButton;
     Glib::RefPtr<Gtk::Button> mDiscartButton;
     Glib::RefPtr<Gtk::Button> mCancelButton;
+
+    MainWindow *parentMainWindow;
 
 public:
     const Glib::ustring WINDOW_TITLE;
