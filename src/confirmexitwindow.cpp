@@ -37,9 +37,7 @@
 
 #include <sigc++/sigc++.h>
 
-#include <iostream>
-
-ConfirmExitWindow::ConfirmExitWindow(MainWindow *parentMainWindow) : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/confirm_exit_dialog_layout.glade")), WINDOW_TITLE("Confirm Exit"), WINDOW_KEY("temp_window"), parentMainWindow(parentMainWindow) {
+ConfirmExitWindow::ConfirmExitWindow(MainWindow *parentMainWindow) : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/confirm_exit_dialog_layout.glade")), parentMainWindow(parentMainWindow), WINDOW_TITLE("Confirm Exit"), WINDOW_KEY("temp_window") {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mSaveButton = Glib::RefPtr<Gtk::Button>::cast_dynamic(mBuilder->get_object("save_button"));
@@ -68,15 +66,17 @@ ConfirmExitWindow::~ConfirmExitWindow() {
 
 // Signal handlers
 void ConfirmExitWindow::onClickSaveButton() {
-    std::cout << "Save clicked" << std::endl;
     parentMainWindow->onActivateMenuItem_save();
     parentMainWindow->clearWindow();
+    hide();
 }
 
 void ConfirmExitWindow::onClickDiscartButton() {
-    std::cout << "Discart clicked" << std::endl;
+    parentMainWindow->clearWindow();
+    hide();
 }
 
 void ConfirmExitWindow::onClickCancelButton() {
-    std::cout << "Cancel clicked" << std::endl;
+    // Do nothing, just hide yourself!
+    hide();
 }
