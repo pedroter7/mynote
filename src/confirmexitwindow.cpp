@@ -25,6 +25,8 @@
 
 #include "confirmexitwindow.hpp"
 
+#include "mainwindow.hpp"
+
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>
 #include <gtkmm/box.h>
@@ -37,7 +39,7 @@
 
 #include <iostream>
 
-ConfirmExitWindow::ConfirmExitWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/confirm_exit_dialog_layout.glade")), WINDOW_TITLE("Confirm Exit"), WINDOW_KEY("temp_window") {
+ConfirmExitWindow::ConfirmExitWindow(MainWindow *parentMainWindow) : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/confirm_exit_dialog_layout.glade")), WINDOW_TITLE("Confirm Exit"), WINDOW_KEY("temp_window"), parentMainWindow(parentMainWindow) {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mSaveButton = Glib::RefPtr<Gtk::Button>::cast_dynamic(mBuilder->get_object("save_button"));
@@ -67,7 +69,8 @@ ConfirmExitWindow::~ConfirmExitWindow() {
 // Signal handlers
 void ConfirmExitWindow::onClickSaveButton() {
     std::cout << "Save clicked" << std::endl;
-
+    parentMainWindow->onActivateMenuItem_save();
+    parentMainWindow->clearWindow();
 }
 
 void ConfirmExitWindow::onClickDiscartButton() {

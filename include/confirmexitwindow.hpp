@@ -54,7 +54,7 @@ public:
     const Glib::ustring WINDOW_TITLE;
     const Glib::ustring WINDOW_KEY;
 
-    ConfirmExitWindow();
+    ConfirmExitWindow(MainWindow *parentMainWindow);
     ~ConfirmExitWindow();
     
     // Signal handlers
