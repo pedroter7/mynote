@@ -102,7 +102,7 @@ void MainWindow::onActivateMenuItem_new() {
     Application *app = Application::getInstance();
     if (app->getChangesSaved() == false) {
         // Display confirm exit window
-        ConfirmExitWindow *tempWindow = new ConfirmExitWindow();
+        ConfirmExitWindow *tempWindow = new ConfirmExitWindow(this);
         app->setTemporaryWindow(tempWindow, true);
         app->addWindow(tempWindow->WINDOW_KEY);
         app->displayWindow(tempWindow->WINDOW_KEY);
