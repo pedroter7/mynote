@@ -35,6 +35,8 @@
 #include <glibmm/refptr.h>
 #include <glibmm/ustring.h>
 
+#include <mutex>
+
 class MainWindow : public Gtk::ApplicationWindow {
 private:
     Gtk::Box *mBox; // Root element of the layout
@@ -48,6 +50,8 @@ private:
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_quit;
     // Help menu items
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_about;
+
+    std::mutex mMutex;
 
 public:
     const Glib::ustring WINDOW_TITLE;

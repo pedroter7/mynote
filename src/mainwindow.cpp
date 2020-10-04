@@ -39,9 +39,10 @@
 
 #include <sigc++/sigc++.h>
 
+#include <mutex>
 #include <iostream>
 
-MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window") {
+MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window"), mMutex() {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));
@@ -89,6 +90,7 @@ MainWindow::~MainWindow() {
 
 // Returns the window to initial state
 void MainWindow::clearWindow() {
+    std::lock_guard<std::mutex> lock(mMutex);
     // Erase the text
     Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
     textBuffer->erase(textBuffer->begin(), textBuffer->end());
@@ -117,6 +119,8 @@ void MainWindow::onActivateMenuItem_open() {
 
 // TODO
 void MainWindow::onActivateMenuItem_save() {
+    std::lock_guard<std::mutex> lock(mMutex);
+
     std::cout << "MenuItem Save activated" << std::endl;
     Application *app = Application::getInstance();
     app->setSaved();
@@ -124,6 +128,8 @@ void MainWindow::onActivateMenuItem_save() {
 
 // TODO
 void MainWindow::onActivateMenuItem_saveAs() {
+    std::lock_guard<std::mutex> lock(mMutex);
+
     std::cout << "MenuItem Save As activated" << std::endl;
 }
 
