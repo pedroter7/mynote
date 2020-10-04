@@ -56,6 +56,9 @@ public:
     MainWindow();
     ~MainWindow();
 
+    // Returns the window to initial state
+    void clearWindow();
+
     // Event handlers
     // File menu items
     void onActivateMenuItem_new();

@@ -24,13 +24,16 @@
 */
 
 #include "mainwindow.hpp"
+
 #include "application.hpp"
+#include "confirmexitwindow.hpp"
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>
 #include <gtkmm/box.h>
 #include <gtkmm/textview.h>
 #include <gtkmm/menuitem.h>
+#include <gtkmm/textbuffer.h>
 
 #include <glibmm/refptr.h>
 
@@ -44,7 +47,8 @@ MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));
 
         // Get textbuffer from textview and connect event listeners
-        mTextArea->get_buffer()->signal_changed().connect(sigc::mem_fun(this, &MainWindow::onTextChanged));
+        Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
+        textBuffer->signal_changed().connect(sigc::mem_fun(this, &MainWindow::onTextChanged));
 
         // Load File menu items and connect respectives signal handlers
         mMenuItem_new = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("new_submenu_item"));
@@ -83,17 +87,28 @@ MainWindow::~MainWindow() {
 
 // Event Handlers
 
+// Returns the window to initial state
+void MainWindow::clearWindow() {
+    // Erase the text
+    Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
+    textBuffer->erase(textBuffer->begin(), textBuffer->end());
+    // Set saved
+    Application::getInstance()->setSaved();
+}
 
 // File menu items handlers
 // TODO
 void MainWindow::onActivateMenuItem_new() {
     Application *app = Application::getInstance();
     if (app->getChangesSaved() == false) {
-        // Display confirm exit window and wait for input
+        // Display confirm exit window
+        ConfirmExitWindow *tempWindow = new ConfirmExitWindow();
+        app->setTemporaryWindow(tempWindow, true);
+        app->addWindow(tempWindow->WINDOW_KEY);
+        app->displayWindow(tempWindow->WINDOW_KEY);
+    } else {
+        clearWindow();
     }
-
-    // Erase the text area
-    mTextArea->get_buffer()->erase(mTextArea->get_buffer()->begin(), mTextArea->get_buffer()->end());
 }
 
 void MainWindow::onActivateMenuItem_open() {
