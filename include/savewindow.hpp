@@ -34,6 +34,7 @@
 #include <gtkmm/entry.h>
 #include <gtkmm/filechooser.h>
 #include <gtkmm/button.h>
+#include <gtkmm/label.h>
 
 #include <glibmm/refptr.h>
 #include <glibmm/ustring.h>
@@ -46,6 +47,7 @@ private:
     Glib::RefPtr<Gtk::FileChooser> mFileChooser;
     Glib::RefPtr<Gtk::Button> mSaveButton;
     Glib::RefPtr<Gtk::Button> mCancelButton;
+    Glib::RefPtr<Gtk::Label> mMessageLabel;
     
     MainWindow *parentMainWindow;
 
