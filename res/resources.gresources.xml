@@ -4,5 +4,6 @@
         <file preprocess="xml-stripblanks">mainwindow_layout.glade</file>
         <file preprocess="xml-stripblanks">confirm_exit_dialog_layout.glade</file>
         <file preprocess="xml-stripblanks">save_window_layout.glade</file>
+        <file preprocess="xml-stripblanks">open_window_layout.glade</file>
     </gresource>
 </gresources>
