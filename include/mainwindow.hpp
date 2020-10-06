@@ -52,6 +52,7 @@ private:
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_about;
     Glib::ustring fileName;
     std::mutex mMutex;
+    bool NEW_CLICKED;
 
 public:
     const Glib::ustring WINDOW_TITLE;
@@ -59,6 +60,9 @@ public:
 
     MainWindow();
     ~MainWindow();
+
+    bool getNewClicked();
+    void setNewClicked(bool set);
 
     // Returns the window to initial state
     void clearWindow();
@@ -74,6 +78,10 @@ public:
     void onActivateMenuItem_about();
     // Changes in the text area
     void onTextChanged();
+
+    // Routines
+    bool saveRoutine(Glib::ustring path, Glib::ustring filename);
+    bool openRoutine(Glib::ustring pathToFile);
 
 };
 
