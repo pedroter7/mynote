@@ -8,6 +8,12 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-cancel</property>
   </object>
+  <object class="GtkImage" id="save_button_ic">
+    <property name="name">save_button_ic</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save-as</property>
+  </object>
   <object class="GtkBox" id="main_box">
     <property name="name">main_box</property>
     <property name="visible">True</property>
@@ -139,11 +145,5 @@
         <property name="position">2</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkImage" id="save_button_ic">
-    <property name="name">save_button_ic</property>
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-save-as</property>
   </object>
 </interface>
