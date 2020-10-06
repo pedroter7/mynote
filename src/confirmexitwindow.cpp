@@ -68,7 +68,6 @@ ConfirmExitWindow::~ConfirmExitWindow() {
 void ConfirmExitWindow::onClickSaveButton() {
     parentMainWindow->onActivateMenuItem_save();
     parentMainWindow->clearWindow();
-    hide();
 }
 
 void ConfirmExitWindow::onClickDiscartButton() {
