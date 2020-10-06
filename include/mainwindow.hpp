@@ -50,9 +50,11 @@ private:
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_quit;
     // Help menu items
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_about;
-    Glib::ustring fileName;
+    Glib::ustring openFilePath;
+    Glib::ustring openFileName;
     std::mutex mMutex;
     bool NEW_CLICKED;
+    bool CANCEL_SIGNAL;
 
 public:
     const Glib::ustring WINDOW_TITLE;
@@ -63,6 +65,7 @@ public:
 
     bool getNewClicked();
     void setNewClicked(bool set);
+    void setCancelSignal();
 
     // Returns the window to initial state
     void clearWindow();
@@ -78,6 +81,8 @@ public:
     void onActivateMenuItem_about();
     // Changes in the text area
     void onTextChanged();
+    
+    bool onDestroy(GdkEventAny* event);
 
     // Routines
     bool saveRoutine(Glib::ustring path, Glib::ustring filename);

@@ -27,6 +27,10 @@
 
 #include "application.hpp"
 #include "confirmexitwindow.hpp"
+#include "savewindow.hpp"
+#include "fileutils.hpp"
+#include "openwindow.hpp"
+#include "aboutwindow.hpp"
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>
@@ -42,7 +46,7 @@
 #include <mutex>
 #include <iostream>
 
-MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), fileName(""), mMutex(), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window") {
+MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), openFilePath(""), openFileName(""), mMutex(), NEW_CLICKED(false), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window") {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));
@@ -71,6 +75,9 @@ MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/
         mMenuItem_about = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("about_submenu_item"));
         mMenuItem_about->signal_activate().connect(sigc::mem_fun(this, &MainWindow::onActivateMenuItem_about));
 
+        // Connect delete event
+        this->signal_delete_event().connect(sigc::mem_fun(this, &MainWindow::onDestroy));
+
         // Add root widget
         add(*mBox);
 
@@ -85,6 +92,10 @@ MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/
 MainWindow::~MainWindow() {
     delete mBox;
 }
+
+bool MainWindow::getNewClicked() {return NEW_CLICKED;}
+
+void MainWindow::setNewClicked(bool set) {NEW_CLICKED = set;}
 
 // Event Handlers
 
@@ -103,6 +114,7 @@ void MainWindow::clearWindow() {
 void MainWindow::onActivateMenuItem_new() {
     Application *app = Application::getInstance();
     if (app->getChangesSaved() == false) {
+        NEW_CLICKED = true;
         // Display confirm exit window
         ConfirmExitWindow *tempWindow = new ConfirmExitWindow(this);
         app->setTemporaryWindow(tempWindow, true);
@@ -114,23 +126,40 @@ void MainWindow::onActivateMenuItem_new() {
 }
 
 void MainWindow::onActivateMenuItem_open() {
-    std::cout << "MenuItem Open activated" << std::endl;
+    Application *app = Application::getInstance();
+    OpenWindow *tempWindow = new OpenWindow(this);
+    app->setTemporaryWindow(tempWindow, true);
+    app->addWindow(tempWindow->WINDOW_KEY);
+    app->displayWindow(tempWindow->WINDOW_KEY);
 }
 
 // TODO
 void MainWindow::onActivateMenuItem_save() {
     std::lock_guard<std::mutex> lock(mMutex);
-
-    std::cout << "MenuItem Save activated" << std::endl;
+    
     Application *app = Application::getInstance();
-    app->setSaved();
+
+    if (openFileName.empty()) {
+        SaveWindow *tempWindow = new SaveWindow(this);
+        app->setTemporaryWindow(tempWindow, true);
+        app->addWindow(tempWindow->WINDOW_KEY);
+        app->displayWindow(tempWindow->WINDOW_KEY);
+    } else {
+        this->saveRoutine(openFilePath, openFileName);
+    }
+    
 }
 
 // TODO
 void MainWindow::onActivateMenuItem_saveAs() {
     std::lock_guard<std::mutex> lock(mMutex);
 
-    std::cout << "MenuItem Save As activated" << std::endl;
+    SaveWindow *tempWindow = new SaveWindow(this);
+    Application *app = Application::getInstance();
+    app->setTemporaryWindow(tempWindow, true);
+    app->addWindow(tempWindow->WINDOW_KEY);
+    app->displayWindow(tempWindow->WINDOW_KEY);
+
 }
 
 // TODO
@@ -145,11 +174,49 @@ void MainWindow::onActivateMenuItem_quit() {
 // Help menu items handlers
 // TODO
 void MainWindow::onActivateMenuItem_about() {
-    std::cout << "MenuItem About activated" << std::endl;
+    Application *app = Application::getInstance();
+    AboutWindow *tempWindow = new AboutWindow();
+    app->setTemporaryWindow(tempWindow);
+    app->addWindow(tempWindow->WINDOW_KEY);
+    app->displayWindow(tempWindow->WINDOW_KEY);
 }
 
 // Changes in the text area
 void MainWindow::onTextChanged() {
     Application *app = Application::getInstance();
     app->setUnsaved();
+}
+
+// Routines
+bool MainWindow::saveRoutine(Glib::ustring path, Glib::ustring filename) {
+    Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
+    Glib::ustring content = textBuffer->get_text();
+    bool res = FileUtils::write(path, filename, content);
+    if (res) {
+        Application *app = Application::getInstance();
+        app->setSaved();
+    }
+    return res;
+}
+
+bool MainWindow::openRoutine(Glib::ustring pathToFile) {
+    Glib::ustring content;
+    bool openFile = FileUtils::read(pathToFile, &content);
+    if (openFile) {
+        openFileName = pathToFile.substr(pathToFile.find_last_of("/")+1, pathToFile.length()-1);
+        openFilePath = pathToFile.erase(pathToFile.find_last_of("/")+1, pathToFile.length()-1);
+        Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
+        textBuffer->erase(textBuffer->begin(), textBuffer->end());
+        textBuffer->insert(textBuffer->begin(), content);
+        Application *app = Application::getInstance();
+        app->setSaved();
+        return true;
+    } 
+    return false;
+}
+
+bool MainWindow::onDestroy(GdkEventAny* event) {
+    std::cout << "DESTROY" << std::endl;
+    this->destroy_();
+    return true;
 }
