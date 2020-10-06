@@ -74,7 +74,8 @@ bool Application::setTemporaryWindow(Gtk::ApplicationWindow* window, bool force)
     if (window) {
         if (windows["temp_window"]) {
             if (force) {
-                // Delete current temp_window
+                // Hide and delete current temp_window
+                windows["temp_window"]->hide();
                 delete windows["temp_window"];
             } else {
                 // Can't assign new temp_window
