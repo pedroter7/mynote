@@ -67,7 +67,7 @@ ConfirmExitWindow::~ConfirmExitWindow() {
 // Signal handlers
 void ConfirmExitWindow::onClickSaveButton() {
     parentMainWindow->onActivateMenuItem_save();
-    parentMainWindow->clearWindow();
+    // parentMainWindow->clearWindow();
 }
 
 void ConfirmExitWindow::onClickDiscartButton() {
