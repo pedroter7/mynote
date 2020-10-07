@@ -20,4 +20,4 @@ Just clone/download this repository's Master branch and run the install.sh scrip
 # Copying
 
 MyNote is licensed under the GNU General Public License v3.0  
-MyNote logo icon is made by [Kiranshastry][https://www.flaticon.com/br/autores/kiranshastry] from [www.flaticon.com][http://flaticon.com]
+MyNote logo icon is made by [Kiranshastry](https://www.flaticon.com/br/autores/kiranshastry) from [www.flaticon.com](http://flaticon.com)
