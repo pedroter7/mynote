@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.2 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkBox" id="content_box">
+    <property name="name">content_box</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">5</property>
+    <child>
+      <object class="GtkLabel" id="description_label">
+        <property name="name">description_label</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">MyNote is a very very simple Notepad-like text editor.</property>
+        <property name="justify">center</property>
+        <property name="width_chars">80</property>
+        <property name="max_width_chars">80</property>
+        <attributes>
+          <attribute name="style" value="italic"/>
+          <attribute name="weight" value="medium"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="padding">3</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="license_label">
+        <property name="name">license_label</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">MyNote is licensed under ther GNU General Public License (GPL) version 3.0
+
+All source code for MyNote is available at the git repository that is hosted at GitHub: 
+http://github.com/pedroter7/mynote</property>
+        <property name="justify">center</property>
+        <property name="wrap">True</property>
+        <property name="width_chars">80</property>
+        <property name="max_width_chars">80</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="padding">3</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="authors_label">
+        <property name="name">authors_label</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Author:
+Pedro Tersetti Freidinger (pedrotersetti3@gmail.com)</property>
+        <property name="justify">center</property>
+        <property name="width_chars">80</property>
+        <property name="max_width_chars">80</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+  </object>
+</interface>
