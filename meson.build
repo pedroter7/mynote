@@ -14,3 +14,4 @@ subdir('res')
 subdir('src')
 
 install_data('mynote.desktop', install_dir : get_option('prefix')/'share'/'applications')
+install_data('res/img/mynote_ic_32.png', rename : 'mynote_icon.png', install_dir : get_option('datadir') / 'pixmaps')
