@@ -39,6 +39,8 @@
 #include <gtkmm/textbuffer.h>
 #include <gtkmm/aboutdialog.h>
 
+#include <gdkmm/pixbuf.h>
+
 #include <glibmm/refptr.h>
 
 #include <sigc++/sigc++.h>
@@ -83,6 +85,7 @@ MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/
 
         // Window properties
         set_title(WINDOW_TITLE);
+        set_icon(Gdk::Pixbuf::create_from_resource("/mynote/res/img/mynote_ic_32.png"));
         set_default_size(800, 600);
         set_border_width(3);
         set_position(Gtk::WIN_POS_CENTER);
