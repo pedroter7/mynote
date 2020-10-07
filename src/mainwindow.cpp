@@ -30,7 +30,6 @@
 #include "savewindow.hpp"
 #include "fileutils.hpp"
 #include "openwindow.hpp"
-#include "aboutwindow.hpp"
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>
@@ -38,6 +37,7 @@
 #include <gtkmm/textview.h>
 #include <gtkmm/menuitem.h>
 #include <gtkmm/textbuffer.h>
+#include <gtkmm/aboutdialog.h>
 
 #include <glibmm/refptr.h>
 
@@ -171,14 +171,22 @@ void MainWindow::onActivateMenuItem_quit() {
     this->destroy_();
 }
 
-// Help menu items handlers
-// TODO
+// Create and run a AboutDialog instance
 void MainWindow::onActivateMenuItem_about() {
-    Application *app = Application::getInstance();
-    AboutWindow *tempWindow = new AboutWindow();
-    app->setTemporaryWindow(tempWindow);
-    app->addWindow(tempWindow->WINDOW_KEY);
-    app->displayWindow(tempWindow->WINDOW_KEY);
+    Gtk::AboutDialog aboutDialog;
+    aboutDialog.set_title("About MyNote");
+    aboutDialog.set_program_name("MyNote");
+    aboutDialog.set_logo(Gdk::Pixbuf::create_from_resource("/mynote/res/img/mynote_ic_128.png"));
+    // Get the content to add to aboutWindow
+    auto builder = Gtk::Builder::create_from_resource("/mynote/res/about_dialog_content.glade");
+    Gtk::Widget *content = nullptr;
+    builder->get_widget("content_box", content);
+    // Add the content
+    Gtk::Box *box = aboutDialog.get_content_area();
+    box->add(*content);    
+    aboutDialog.run();
+    // Free memory
+    delete content;
 }
 
 // Changes in the text area
