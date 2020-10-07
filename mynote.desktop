@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=MyNote
+Comment=A very very simple Notepad-like editor
+Exec=/usr/local/bin/mynote
+Terminal=false
