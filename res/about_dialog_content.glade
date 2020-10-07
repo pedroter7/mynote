@@ -64,7 +64,25 @@ Pedro Tersetti Freidinger (pedrotersetti3@gmail.com)</property>
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
+        <property name="padding">3</property>
         <property name="position">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="icon_author_label">
+        <property name="name">icon_author_label</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">MyNote icon was created by Kiranshastry from www.flaticon.com</property>
+        <property name="justify">center</property>
+        <property name="width_chars">80</property>
+        <property name="max_width_chars">80</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="padding">3</property>
+        <property name="position">3</property>
       </packing>
     </child>
   </object>
