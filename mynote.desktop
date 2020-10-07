@@ -3,5 +3,6 @@ Type=Application
 Version=1.0
 Name=MyNote
 Comment=A very very simple Notepad-like editor
-Exec=/usr/local/bin/mynote
+Exec=mynote
 Terminal=false
+Icon=mynote_icon.png
