@@ -29,7 +29,6 @@
 #include "confirmexitwindow.hpp"
 #include "savewindow.hpp"
 #include "fileutils.hpp"
-#include "openwindow.hpp"
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/builder.h>

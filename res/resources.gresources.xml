@@ -4,7 +4,6 @@
         <file preprocess="xml-stripblanks">mainwindow_layout.glade</file>
         <file preprocess="xml-stripblanks">confirm_exit_dialog_layout.glade</file>
         <file preprocess="xml-stripblanks">save_window_layout.glade</file>
-        <file preprocess="xml-stripblanks">open_window_layout.glade</file>
         <file preprocess="xml-stripblanks">about_dialog_content.glade</file>
         <file preprocess="to-pixdata">img/mynote_ic.svg</file>
         <file preprocess="to-pixdata">img/mynote_ic_512.png</file>
