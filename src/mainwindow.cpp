@@ -122,25 +122,15 @@ void MainWindow::clearWindow() {
 
 // File menu items handlers
 // TODO
-// void MainWindow::onActivateMenuItem_new() {
-//     Application *app = Application::getInstance();
-//     if (app->getChangesSaved() == false) {
-//         NEW_CLICKED = true;
-//         // Display confirm exit window
-//         ConfirmExitWindow *tempWindow = new ConfirmExitWindow(this);
-//         app->setTemporaryWindow(tempWindow, true);
-//         app->addWindow(tempWindow->WINDOW_KEY);
-//         app->displayWindow(tempWindow->WINDOW_KEY);
-//     } else {
-//         clearWindow();
-//     }
-// }
-
 void MainWindow::onActivateMenuItem_new() {
     Application *app = Application::getInstance();
     if (app->getChangesSaved() == false) {
-        Gtk::MessageDialog messageDialog("There are unsaved changes, would you like to save?");
-        messageDialog.run();
+        NEW_CLICKED = true;
+        // Display confirm exit window
+        ConfirmExitWindow *tempWindow = new ConfirmExitWindow(this);
+        app->setTemporaryWindow(tempWindow, true);
+        app->addWindow(tempWindow->WINDOW_KEY);
+        app->displayWindow(tempWindow->WINDOW_KEY);
     } else {
         clearWindow();
     }
@@ -178,24 +168,38 @@ void MainWindow::onActivateMenuItem_save() {
             if (!saveRoutine(path, filename)) {
                 messageDialog("Error!", "Some error occurred while trying to save current file to the requested directory. Be sure that you have permission to do so.");
                 onActivateMenuItem_save();
-            }
-        }
+            } else {
+                // Set openFileName and openFilePath
+                openFileName = filename;
+                openFilePath = path;
+            }            
+        }        
     } else {
         this->saveRoutine(openFilePath, openFileName);
     }
     
 }
 
-// TODO
+
 void MainWindow::onActivateMenuItem_saveAs() {
-    std::lock_guard<std::mutex> lock(mMutex);
-
-    SaveWindow *tempWindow = new SaveWindow(this);
-    Application *app = Application::getInstance();
-    app->setTemporaryWindow(tempWindow, true);
-    app->addWindow(tempWindow->WINDOW_KEY);
-    app->displayWindow(tempWindow->WINDOW_KEY);
-
+    Gtk::FileChooserDialog fChooserDialog("Save file");
+        fChooserDialog.set_action(Gtk::FILE_CHOOSER_ACTION_SAVE);
+        fChooserDialog.add_button("Save", 0);
+        fChooserDialog.add_button("Cancel", 1);
+        int choice = fChooserDialog.run();
+        if (choice == 0) {
+            Glib::ustring fullPath = fChooserDialog.get_filename();
+            Glib::ustring filename = fullPath.substr(fullPath.find_last_of("/")+1, fullPath.length());
+            Glib::ustring path = fullPath.substr(0, fullPath.find_last_of("/")+1);
+            if (!saveRoutine(path, filename)) {
+                messageDialog("Error!", "Some error occurred while trying to save current file to the requested directory. Be sure that you have permission to do so.");
+                onActivateMenuItem_saveAs();
+            } else {
+                // Set openFileName and openFilePath
+                openFileName = filename;
+                openFilePath = path;
+            }
+        }
 }
 
 // TODO
