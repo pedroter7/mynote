@@ -38,6 +38,8 @@
 #include <gtkmm/menuitem.h>
 #include <gtkmm/textbuffer.h>
 #include <gtkmm/aboutdialog.h>
+#include <gtkmm/filechooserdialog.h>
+#include <gtkmm/messagedialog.h>
 
 #include <gdkmm/pixbuf.h>
 
@@ -114,26 +116,48 @@ void MainWindow::clearWindow() {
 
 // File menu items handlers
 // TODO
+// void MainWindow::onActivateMenuItem_new() {
+//     Application *app = Application::getInstance();
+//     if (app->getChangesSaved() == false) {
+//         NEW_CLICKED = true;
+//         // Display confirm exit window
+//         ConfirmExitWindow *tempWindow = new ConfirmExitWindow(this);
+//         app->setTemporaryWindow(tempWindow, true);
+//         app->addWindow(tempWindow->WINDOW_KEY);
+//         app->displayWindow(tempWindow->WINDOW_KEY);
+//     } else {
+//         clearWindow();
+//     }
+// }
+
 void MainWindow::onActivateMenuItem_new() {
     Application *app = Application::getInstance();
     if (app->getChangesSaved() == false) {
-        NEW_CLICKED = true;
-        // Display confirm exit window
-        ConfirmExitWindow *tempWindow = new ConfirmExitWindow(this);
-        app->setTemporaryWindow(tempWindow, true);
-        app->addWindow(tempWindow->WINDOW_KEY);
-        app->displayWindow(tempWindow->WINDOW_KEY);
+        Gtk::MessageDialog messageDialog("There are unsaved changes, would you like to save?");
+        messageDialog.run();
     } else {
         clearWindow();
     }
 }
 
 void MainWindow::onActivateMenuItem_open() {
-    Application *app = Application::getInstance();
-    OpenWindow *tempWindow = new OpenWindow(this);
-    app->setTemporaryWindow(tempWindow, true);
-    app->addWindow(tempWindow->WINDOW_KEY);
-    app->displayWindow(tempWindow->WINDOW_KEY);
+    Gtk::FileChooserDialog fChooserDialog("Select a file to open");
+    fChooserDialog.add_button("Open", 0);
+    fChooserDialog.add_button("Cancel", 1);
+    int choice = fChooserDialog.run();
+    if (choice == 0) {
+        Application *app = Application::getInstance();
+        if (!app->getChangesSaved()) {
+            // display unsaved changes dialog
+            std::cout << "UNSAVED CHANGES" << std::endl;
+        }
+        Glib::ustring filename = fChooserDialog.get_filename();
+        if (!openRoutine(filename)) {
+            Gtk::MessageDialog errorDialog("It was not possible to open the requested file.");
+            errorDialog.set_title("Error!");
+            errorDialog.run();
+        }
+    }
 }
 
 // TODO
