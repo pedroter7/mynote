@@ -164,17 +164,22 @@ void MainWindow::onActivateMenuItem_open() {
     }
 }
 
-// TODO
 void MainWindow::onActivateMenuItem_save() {
-    std::lock_guard<std::mutex> lock(mMutex);
-    
-    Application *app = Application::getInstance();
-
     if (openFileName.empty()) {
-        SaveWindow *tempWindow = new SaveWindow(this);
-        app->setTemporaryWindow(tempWindow, true);
-        app->addWindow(tempWindow->WINDOW_KEY);
-        app->displayWindow(tempWindow->WINDOW_KEY);
+        Gtk::FileChooserDialog fChooserDialog("Save file");
+        fChooserDialog.set_action(Gtk::FILE_CHOOSER_ACTION_SAVE);
+        fChooserDialog.add_button("Save", 0);
+        fChooserDialog.add_button("Cancel", 1);
+        int choice = fChooserDialog.run();
+        if (choice == 0) {
+            Glib::ustring fullPath = fChooserDialog.get_filename();
+            Glib::ustring filename = fullPath.substr(fullPath.find_last_of("/")+1, fullPath.length());
+            Glib::ustring path = fullPath.substr(0, fullPath.find_last_of("/")+1);
+            if (!saveRoutine(path, filename)) {
+                messageDialog("Error!", "Some error occurred while trying to save current file to the requested directory. Be sure that you have permission to do so.");
+                onActivateMenuItem_save();
+            }
+        }
     } else {
         this->saveRoutine(openFilePath, openFileName);
     }
@@ -231,6 +236,7 @@ bool MainWindow::saveRoutine(Glib::ustring path, Glib::ustring filename) {
     Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
     Glib::ustring content = textBuffer->get_text();
     bool res = FileUtils::write(path, filename, content);
+    std::cout << res << std::endl;
     if (res) {
         Application *app = Application::getInstance();
         app->setSaved();
