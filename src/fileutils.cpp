@@ -38,6 +38,7 @@ bool FileUtils::write(Glib::ustring path, Glib::ustring filename, Glib::ustring 
     bool res;
     try {
         outputFilStream.open(fullPath);
+        if (!outputFilStream) {return false;}
         outputFilStream << content;
         res = true;
     } catch (std::ofstream::failure e) {
@@ -53,6 +54,7 @@ bool FileUtils::read(Glib::ustring pathToFile, Glib::ustring *dest) {
     bool res;
     try {
         inputFileStream.open(pathToFile);
+        if (!inputFileStream) {return false;}
         char temp;
         while (inputFileStream.get(temp)) {
             *dest += temp;
