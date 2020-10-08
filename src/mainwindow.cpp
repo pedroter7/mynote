@@ -26,7 +26,6 @@
 #include "mainwindow.hpp"
 
 #include "application.hpp"
-#include "confirmexitwindow.hpp"
 #include "fileutils.hpp"
 
 #include <gtkmm/applicationwindow.h>
@@ -45,10 +44,9 @@
 
 #include <sigc++/sigc++.h>
 
-#include <mutex>
 #include <iostream>
 
-MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), openFilePath(""), openFileName(""), mMutex(), NEW_CLICKED(false), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window") {
+MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), openFilePath(""), openFileName(""), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window") {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));
@@ -96,10 +94,6 @@ MainWindow::~MainWindow() {
     delete mBox;
 }
 
-bool MainWindow::getNewClicked() {return NEW_CLICKED;}
-
-void MainWindow::setNewClicked(bool set) {NEW_CLICKED = set;}
-
 // Event Handlers
 
 // Create and run a Gtk::MessageDialog and return its return value
@@ -109,27 +103,35 @@ int MainWindow::messageDialog(Glib::ustring title, Glib::ustring message) {
     return messageDialog.run();
 }
 
+// Create a window that asks for user if she wants to save changes
+// Return: 0 for save, 1 for discart, 2 for cancel
+int MainWindow::confirmExitDialog(bool cancelButton) {
+    Gtk::MessageDialog messageDialog("There are unsaved changes, what would you like to do?",false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_NONE);
+    messageDialog.set_title("Confirm exit?");
+    messageDialog.add_button("Save", 0);
+    messageDialog.add_button("Discart", 1);
+    if (cancelButton) messageDialog.add_button("Cancel", 2);
+    return messageDialog.run();
+}
+
+
+
 // Returns the window to initial state
 void MainWindow::clearWindow() {
-    std::lock_guard<std::mutex> lock(mMutex);
     // Erase the text
     Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
     textBuffer->erase(textBuffer->begin(), textBuffer->end());
+    // Erase names
+    openFilePath = "";
+    openFileName = "";
     // Set saved
     Application::getInstance()->setSaved();
 }
 
-// File menu items handlers
-// TODO
 void MainWindow::onActivateMenuItem_new() {
     Application *app = Application::getInstance();
     if (app->getChangesSaved() == false) {
-        NEW_CLICKED = true;
-        // Display confirm exit window
-        ConfirmExitWindow *tempWindow = new ConfirmExitWindow(this);
-        app->setTemporaryWindow(tempWindow, true);
-        app->addWindow(tempWindow->WINDOW_KEY);
-        app->displayWindow(tempWindow->WINDOW_KEY);
+        confirmExitRoutine();
     } else {
         clearWindow();
     }
@@ -143,8 +145,7 @@ void MainWindow::onActivateMenuItem_open() {
     if (choice == 0) {
         Application *app = Application::getInstance();
         if (!app->getChangesSaved()) {
-            // display unsaved changes dialog
-            std::cout << "UNSAVED CHANGES" << std::endl;
+            confirmExitRoutine();
         }
         Glib::ustring filename = fChooserDialog.get_filename();
         if (!openRoutine(filename)) {
@@ -201,13 +202,9 @@ void MainWindow::onActivateMenuItem_saveAs() {
         }
 }
 
-// TODO
+
 void MainWindow::onActivateMenuItem_quit() {
-    Application *app = Application::getInstance();
-    if (app->getChangesSaved() == false) {
-        std::cout << "changes not saved" << std::endl;
-    }
-    this->destroy_();
+    onDestroy(nullptr);
 }
 
 // Create and run a AboutDialog instance
@@ -235,6 +232,22 @@ void MainWindow::onTextChanged() {
 }
 
 // Routines
+
+// Return the choice
+int MainWindow::confirmExitRoutine(bool cancelButton){
+    int choice = confirmExitDialog(cancelButton); // 0 save, 1 discart, 2 cancel
+    switch (choice) {
+    case 0: // Save
+        onActivateMenuItem_save();
+    case 1: // Discart
+        clearWindow();
+        break;
+    case 2: // Cancel
+        break;
+    }
+    return choice;
+}
+
 bool MainWindow::saveRoutine(Glib::ustring path, Glib::ustring filename) {
     Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
     Glib::ustring content = textBuffer->get_text();
@@ -263,8 +276,12 @@ bool MainWindow::openRoutine(Glib::ustring pathToFile) {
     return false;
 }
 
+// Handle when user clicks that X button
 bool MainWindow::onDestroy(GdkEventAny* event) {
-    std::cout << "DESTROY" << std::endl;
+    Application *app = Application::getInstance();
+    if (!app->getChangesSaved()) {
+        confirmExitRoutine(false);
+    }
     this->destroy_();
     return true;
 }

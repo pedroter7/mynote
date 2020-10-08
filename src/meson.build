@@ -4,7 +4,6 @@ mynote_sources = [
     'main.cpp', 
     'application.cpp', 
     'mainwindow.cpp', 
-    'confirmexitwindow.cpp', 
     'fileutils.cpp']
 
 mynote_sources += resources

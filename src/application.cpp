@@ -30,7 +30,6 @@ Application is a singleton class that abstracts a Gtk::Application instance for 
 #include "application.hpp"
 
 #include "mainwindow.hpp"
-#include "confirmexitwindow.hpp"
 
 #include <gtkmm/application.h>
 #include <gtkmm/applicationwindow.h>

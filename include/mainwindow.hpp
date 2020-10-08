@@ -35,8 +35,6 @@
 #include <glibmm/refptr.h>
 #include <glibmm/ustring.h>
 
-#include <mutex>
-
 class MainWindow : public Gtk::ApplicationWindow {
 private:
     Gtk::Box *mBox; // Root element of the layout
@@ -52,9 +50,6 @@ private:
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_about;
     Glib::ustring openFilePath;
     Glib::ustring openFileName;
-    std::mutex mMutex;
-    bool NEW_CLICKED;
-    bool CANCEL_SIGNAL;
 
 public:
     const Glib::ustring WINDOW_TITLE;
@@ -63,12 +58,11 @@ public:
     MainWindow();
     ~MainWindow();
 
-    bool getNewClicked();
-    void setNewClicked(bool set);
-    void setCancelSignal();
-
     // Create and run a Gtk::MessageDialog and return its return value
     int messageDialog(Glib::ustring title, Glib::ustring message);
+    // Create a window that asks for user if she wants to save changes
+    // Return: 0 for save, 1 for discart, 2 for cancel
+    int confirmExitDialog(bool cancelButton=false);
 
     // Returns the window to initial state
     void clearWindow();
@@ -88,6 +82,7 @@ public:
     bool onDestroy(GdkEventAny* event);
 
     // Routines
+    int confirmExitRoutine(bool cancelButton=true);
     bool saveRoutine(Glib::ustring path, Glib::ustring filename);
     bool openRoutine(Glib::ustring pathToFile);
 
