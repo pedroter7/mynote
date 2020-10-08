@@ -67,6 +67,9 @@ public:
     void setNewClicked(bool set);
     void setCancelSignal();
 
+    // Create and run a Gtk::MessageDialog and return its return value
+    int messageDialog(Glib::ustring title, Glib::ustring message);
+
     // Returns the window to initial state
     void clearWindow();
 

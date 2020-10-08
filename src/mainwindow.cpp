@@ -103,6 +103,13 @@ void MainWindow::setNewClicked(bool set) {NEW_CLICKED = set;}
 
 // Event Handlers
 
+// Create and run a Gtk::MessageDialog and return its return value
+int MainWindow::messageDialog(Glib::ustring title, Glib::ustring message) {
+    Gtk::MessageDialog messageDialog(message);
+    messageDialog.set_title(title);
+    return messageDialog.run();
+}
+
 // Returns the window to initial state
 void MainWindow::clearWindow() {
     std::lock_guard<std::mutex> lock(mMutex);
@@ -152,9 +159,7 @@ void MainWindow::onActivateMenuItem_open() {
         }
         Glib::ustring filename = fChooserDialog.get_filename();
         if (!openRoutine(filename)) {
-            Gtk::MessageDialog errorDialog("It was not possible to open the requested file.");
-            errorDialog.set_title("Error!");
-            errorDialog.run();
+            messageDialog("Error!", "Some error occured while trying to open the requested file.");
         }
     }
 }
