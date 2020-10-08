@@ -15,9 +15,11 @@ In order to build and run MyNote, you need to have at least those installed:
 
 ## How to
 
-Just clone/download this repository's Master branch and run the install.sh script. Other option is to run manually meson and ninja commands. **If you change the prefix variable, remember to change the desktop entry too.**  
-The build-run.sh script is a shortcut to install a debug version to a directory called \_\_build.
-
+- Clone/download this repository.
+- Run install.sh or, if you want to change the building parameters, you can manually execute meson and ninja;
+- If you want just a debug version, there is a shortcut script called build-run.sh that will build MyNote to a directory called \_\_build
+ and run the built executable.
+ 
 # Copying
 
 MyNote is licensed under the [GNU General Public License v3.0](https://opensource.org/licenses/GPL-3.0)  
