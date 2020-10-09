@@ -31,6 +31,7 @@
 #include <gtkmm/box.h>
 #include <gtkmm/textview.h>
 #include <gtkmm/menuitem.h>
+#include <gtkmm/checkmenuitem.h>
 
 #include <glibmm/refptr.h>
 #include <glibmm/ustring.h>
@@ -46,10 +47,14 @@ private:
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_save;
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_saveAs;
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_quit;
+    Glib::RefPtr<Gtk::CheckMenuItem> mMenuItem_wordWrap;
     // Help menu items
     Glib::RefPtr<Gtk::MenuItem> mMenuItem_about;
+
     Glib::ustring openFilePath;
     Glib::ustring openFileName;
+
+    bool wordWrap;
 
 public:
     const Glib::ustring WINDOW_TITLE;
@@ -76,6 +81,8 @@ public:
     void onActivateMenuItem_quit();
     // Help menu items
     void onActivateMenuItem_about();
+    // View menu items
+    void onToggleWordWrap();
     // Changes in the text area
     void onTextChanged();
     

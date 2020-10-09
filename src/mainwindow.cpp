@@ -46,7 +46,7 @@
 
 #include <iostream>
 
-MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), openFilePath(""), openFileName(""), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window") {
+MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/res/mainwindow_layout.glade")), openFilePath(""), openFileName(""), wordWrap(false), WINDOW_TITLE("MyNote"), WINDOW_KEY("main_window") {
     if (mBuilder) {
         mBuilder->get_widget("main_box", mBox);
         mTextArea = Glib::RefPtr<Gtk::TextView>::cast_dynamic(mBuilder->get_object("text_area"));
@@ -74,6 +74,10 @@ MainWindow::MainWindow() : mBuilder(Gtk::Builder::create_from_resource("/mynote/
         // Load Help menu items and connect respectives signal handlers        
         mMenuItem_about = Glib::RefPtr<Gtk::MenuItem>::cast_dynamic(mBuilder->get_object("about_submenu_item"));
         mMenuItem_about->signal_activate().connect(sigc::mem_fun(this, &MainWindow::onActivateMenuItem_about));
+
+        // Load View menu items and connect respectives signal handlers
+        mMenuItem_wordWrap = Glib::RefPtr<Gtk::CheckMenuItem>::cast_dynamic(mBuilder->get_object("word_wrap_submenu_item"));
+        mMenuItem_wordWrap->signal_toggled().connect(sigc::mem_fun(this, &MainWindow::onToggleWordWrap));
 
         // Connect delete event
         this->signal_delete_event().connect(sigc::mem_fun(this, &MainWindow::onDestroy));
@@ -223,6 +227,17 @@ void MainWindow::onActivateMenuItem_about() {
     aboutDialog.run();
     // Free memory
     delete content;
+}
+
+// When word wrap is toggled
+void MainWindow::onToggleWordWrap() {
+    if (wordWrap) {
+        wordWrap = false;
+        mTextArea->set_wrap_mode(Gtk::WRAP_NONE);
+    } else {
+        wordWrap = true;
+        mTextArea->set_wrap_mode(Gtk::WRAP_WORD_CHAR);
+    }
 }
 
 // Changes in the text area
