@@ -2,7 +2,6 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkTextBuffer" id="text_buffer"/>
   <object class="GtkBox" id="main_box">
     <property name="name">main_box</property>
     <property name="visible">True</property>
@@ -120,19 +119,26 @@
       </packing>
     </child>
     <child>
-      <object class="GtkTextView" id="text_area">
-        <property name="name">text_area</property>
+      <object class="GtkScrolledWindow" id="text_scrolled_window">
+        <property name="name">text_scrolled_window</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="pixels_above_lines">1</property>
-        <property name="pixels_below_lines">1</property>
-        <property name="pixels_inside_wrap">2</property>
-        <property name="wrap_mode">word-char</property>
-        <property name="left_margin">1</property>
-        <property name="right_margin">1</property>
-        <property name="top_margin">1</property>
-        <property name="bottom_margin">1</property>
-        <property name="buffer">text_buffer</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkTextView" id="text_area">
+            <property name="name">text_area</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="pixels_above_lines">1</property>
+            <property name="pixels_below_lines">1</property>
+            <property name="pixels_inside_wrap">2</property>
+            <property name="left_margin">1</property>
+            <property name="right_margin">1</property>
+            <property name="top_margin">1</property>
+            <property name="bottom_margin">1</property>
+            <property name="buffer">text_buffer</property>
+          </object>
+        </child>
       </object>
       <packing>
         <property name="expand">True</property>
@@ -141,4 +147,5 @@
       </packing>
     </child>
   </object>
+  <object class="GtkTextBuffer" id="text_buffer"/>
 </interface>
