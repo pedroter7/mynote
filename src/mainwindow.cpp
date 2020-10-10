@@ -23,6 +23,14 @@
     All source code of MyNote is available at https://github.com/pedroter7/mynote
 */
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+// Operating system: windows, set path separator
+#define PATH_SEPARATOR "\\"
+#else
+// Operating system: unix-like
+#define PATH_SEPARATOR "/"
+#endif
+
 #include "mainwindow.hpp"
 
 #include "application.hpp"
@@ -179,6 +187,9 @@ void MainWindow::onActivateMenuItem_save() {
             }            
         }        
     } else {
+	    // Debug line
+	    std::cout << "openFilePath: " << openFilePath << std::endl;
+	    std::cout << "openFileName: " << openFileName << std::endl;
         this->saveRoutine(openFilePath, openFileName);
     }
     
@@ -279,8 +290,8 @@ bool MainWindow::openRoutine(Glib::ustring pathToFile) {
     Glib::ustring content;
     bool openFile = FileUtils::read(pathToFile, &content);
     if (openFile) {
-        openFileName = pathToFile.substr(pathToFile.find_last_of("/")+1, pathToFile.length()-1);
-        openFilePath = pathToFile.erase(pathToFile.find_last_of("/")+1, pathToFile.length()-1);
+        openFileName = pathToFile.substr(pathToFile.find_last_of(PATH_SEPARATOR)+1, pathToFile.length()-1);
+        openFilePath = pathToFile.erase(pathToFile.find_last_of(PATH_SEPARATOR)+1, pathToFile.length()-1);
         Glib::RefPtr<Gtk::TextBuffer> textBuffer = mTextArea->get_buffer();
         textBuffer->erase(textBuffer->begin(), textBuffer->end());
         textBuffer->insert(textBuffer->begin(), content);
