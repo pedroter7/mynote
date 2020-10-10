@@ -12,10 +12,24 @@ MyNote is a very, very simple Notepad-like editor. Note that I've developed this
 
 In order to build and run MyNote, you need to have at least those installed:
 
+#### Linux:
+
 - [Gtkmm](https://www.gtkmm.org/en/) and its dependencies;
 - pkg-config(https://www.freedesktop.org/wiki/Software/pkg-config/);
 - [meson](https://mesonbuild.com/index.html) and its dependencies;
 - ninja;
+
+### Windows:
+
+- [MSYS2](https://www.msys2.org/);
+
+Installing those packages inside MSYS2 should be enough:
+````bash
+pacman -S --needed mingw-w64-{i686,x86_64}-{toolchain,meson,pkg-config,glib2}
+pacman -S mingw-w64-x86_64-{gtkmm3, glib2,atk,pango,cairo,gdk-pixbuf2,librsvg,graphene,libepoxy,libsigc++3,glibmm,pangomm,atkmm}
+pacman -S mingw-w64-x86_64-{shared-mime-info,adwaita-icon-theme}
+```
+
 
 ## How to install - Linux
 
@@ -44,7 +58,9 @@ ninja -C __build uninstall
 
 *Still working on this...*
 
-# Debug build - Linux
+# Debug build - Linux / Windows
+
+*When using Windows, do this using MSYS2*  
 
 - You can manually call meson and ninja, just remember to pass to meson the flag --buildtype=debug since the default is release;
 - Another option is to use the handy build-run.sh script, the script make the following calls:
