@@ -4,7 +4,7 @@
 echo "" && \
 	echo "=================== building ===================" &&\
        	echo "" && \
-	meson __build && \
+	meson --buildtype=debug __build && \
 	ninja -C __build && \
 	echo "" && \
        	echo "=================== running ===================" && \
