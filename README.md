@@ -1,6 +1,10 @@
 # MyNote
 
-MyNote is a very, very simple Notepad-like editor. Note that I've developed this small editor to learn Gtkmm, Meson Build and how to do some stuff. Thus this project has basically no design, is incomplete, and contains some bugs. You can do wathever you want with it, just take a look at the GPLV-3.0 before.
+MyNote is a very, very simple Notepad-like editor. Note that I've developed this small editor to learn Gtkmm, Meson Build and how to do some stuff. Thus this project has basically no design, is kinda incomplete, and contains some bugs. You can do wathever you want with it, just take a look at the GPLV-3.0 before.
+
+# Releases:
+
+- **Latest stable: 1.0**
 
 # Install
 
@@ -13,12 +17,42 @@ In order to build and run MyNote, you need to have at least those installed:
 - [meson](https://mesonbuild.com/index.html) and its dependencies;
 - ninja;
 
-## How to
+## How to install - Linux
 
-- Clone/download this repository.
-- Run install.sh or, if you want to change the building parameters, you can manually execute meson and ninja;
-- If you want just a debug version, there is a shortcut script called build-run.sh that will build MyNote to a directory called \_\_build
- and run the built executable.
+- Download the [distribution file](https://github.com/pedroter7/mynote/blob/master/dist/linux/mynote-1.0.tar.gz?raw=true);
+- Go to the folder where the .tar.gz file is and do the following to install MyNote to /usr/local/bin:
+```bash
+tar xvf mynote-*.tar.gz
+cd mynote-* # * is the version number just downloaded
+./install.sh # This script executes the following: meson __build; ninja -C __build; ninja -C __build install
+```
+- In order to build mynote only locally or override some predefined meson variables such as prefix, you can manually call meson and ninja instead of executing the install script
+
+## How to uninstall - Linux
+
+- In case you have removed the download files; download the [distribution file](https://github.com/pedroter7/mynote/blob/master/dist/linux/mynote-1.0.tar.gz?raw=true) again;
+- Go to the folder where the .tar.gz file is and do the following to uninstall MyNote (Notice that if you have overrided any default directory, you must override it again to correctly uninstall MyNote):
+```bash
+tar xvf mynote-*.tar.gz
+cd mynote-* # * is the version number just downloaded
+meson __build
+ninja -C __build # Still not sure if this step is needed to uninstall
+ninja -C __build uninstall
+```
+
+## How to install - Windows
+
+*Still working on this...*
+
+# Debug build - Linux
+
+- You can manually call meson and ninja, just remember to pass to meson the flag --buildtype=debug since the default is release;
+- Another option is to use the handy build-run.sh script, the script make the following calls:
+```bash
+meson --buildtype=debug __build
+ninja -C __build
+__build/src/mynote # Run the build
+```
  
 # Copying
 
