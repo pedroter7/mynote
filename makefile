@@ -52,6 +52,9 @@ MINGWETCDIR=$(MINGWDIR)/etc
 MINGWLIBDIR=$(MINGWDIR)/lib
 MINGWSHAREDIR=$(MINGWDIR)/share
 
+# Root dir files
+ROOTDIRFILES=LICENSE README.md $(PROJECTDIR)/res/img/*
+
 # Needed files to bin directory
 BINDIRFILES=*atk*.dll *brotli*.dll *bz*.dll *cairo*.dll *datrie*.dll *epoxy*.dll\
 	    *expat*.dll *ffi*.dll *fontconfig*.dll *freetype*.dll *fribidi*.dll\
@@ -71,6 +74,7 @@ LIBDIRFILES=gdkmm-3.0 gdk-pixbuf-2.0 giomm-2.4 girepository-1.0 glib-2.0 glibmm-
 SHAREDIRFILES=glib-2.0 icons locale
 
 copy-files: $(DISTDIRPATH)
+	cp -v $(ROOTDIRFILES) $(DISTDIRPATH)
 	cd $(MINGWBINDIR) && cp -Rv $(BINDIRFILES) $(DISTBINDIR)
 	cd $(MINGWETCDIR) && cp -Rv $(ETCDIRFILES) $(DISTETCDIR)
 	cd $(MINGWLIBDIR) && cp -Rv $(LIBDIRFILES) $(DISTLIBDIR)
