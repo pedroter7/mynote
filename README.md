@@ -24,8 +24,8 @@ In order to build and run MyNote, you need to have at least those installed:
 - [MSYS2](https://www.msys2.org/);
 
 Installing those packages inside MSYS2 should be enough:
-````bash
-pacman -S --needed mingw-w64-{i686,x86_64}-{toolchain,meson,pkg-config,glib2}
+```bash
+pacman -S --needed mingw-w64-{i686,x86_64}-{toolchain,meson,pkg-config,glib2,make}
 pacman -S mingw-w64-x86_64-{gtkmm3, glib2,atk,pango,cairo,gdk-pixbuf2,librsvg,graphene,libepoxy,libsigc++3,glibmm,pangomm,atkmm}
 pacman -S mingw-w64-x86_64-{shared-mime-info,adwaita-icon-theme}
 ```
