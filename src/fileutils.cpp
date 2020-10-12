@@ -66,5 +66,4 @@ bool FileUtils::read(Glib::ustring pathToFile, Glib::ustring *dest) {
     }
     inputFileStream.close();
     return res;
-
 }
