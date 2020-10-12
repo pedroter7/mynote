@@ -60,7 +60,7 @@ ninja -C __build uninstall
 
 ## How to install - Windows
 
-- Download the [latest version installer](https://github.com/pedroter7/mynote/blob/windows-version/dist/windows/mynote-1.0.exe?raw=true);
+- Download the [latest version installer](https://github.com/pedroter7/mynote/blob/master/dist/windows/mynote-1.0.exe?raw=true);
 - Execute it and install. This will install a standalone version of MyNote to your system;
 
 ## How to uninstall - Windows
