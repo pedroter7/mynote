@@ -21,7 +21,7 @@ In order to build and run MyNote, you need to have at least those installed:
 
 ### Windows:
 
-**If you just want to install and use MyNote, there are no requirements, just download the [standalone installer](https://github.com/pedroter7/mynote/blob/windows-version/dist/windows/mynote-1.0.exe?raw=true)**
+**If you just want to install and use MyNote, there are no requirements, just download the [standalone installer](https://github.com/pedroter7/mynote/blob/master/dist/windows/mynote-1.0.exe?raw=true)**
 
 **If you wish to build and contribute to MyNote, these are the requirements:**
 
