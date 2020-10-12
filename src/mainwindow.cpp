@@ -116,12 +116,12 @@ int MainWindow::messageDialog(Glib::ustring title, Glib::ustring message) {
 }
 
 // Create a window that asks for user if she wants to save changes
-// Return: 0 for save, 1 for discart, 2 for cancel
+// Return: 0 for save, 1 for discard, 2 for cancel
 int MainWindow::confirmExitDialog(bool cancelButton) {
     Gtk::MessageDialog messageDialog("There are unsaved changes, what would you like to do?",false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_NONE);
     messageDialog.set_title("Confirm exit?");
     messageDialog.add_button("Save", 0);
-    messageDialog.add_button("Discart", 1);
+    messageDialog.add_button("Discard", 1);
     if (cancelButton) messageDialog.add_button("Cancel", 2);
     return messageDialog.run();
 }
@@ -261,11 +261,11 @@ void MainWindow::onTextChanged() {
 
 // Return the choice
 int MainWindow::confirmExitRoutine(bool cancelButton){
-    int choice = confirmExitDialog(cancelButton); // 0 save, 1 discart, 2 cancel
+    int choice = confirmExitDialog(cancelButton); // 0 save, 1 discard, 2 cancel
     switch (choice) {
     case 0: // Save
         onActivateMenuItem_save();
-    case 1: // Discart
+    case 1: // Discard
         clearWindow();
         break;
     case 2: // Cancel

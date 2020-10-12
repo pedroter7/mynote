@@ -66,7 +66,7 @@ public:
     // Create and run a Gtk::MessageDialog and return its return value
     int messageDialog(Glib::ustring title, Glib::ustring message);
     // Create a window that asks for user if she wants to save changes
-    // Return: 0 for save, 1 for discart, 2 for cancel
+    // Return: 0 for save, 1 for discard, 2 for cancel
     int confirmExitDialog(bool cancelButton=false);
 
     // Returns the window to initial state
