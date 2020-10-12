@@ -9,3 +9,5 @@
 *.glade~
 *#*#
 
+# Windows dist dir
+dist/windows/mynote-*/
